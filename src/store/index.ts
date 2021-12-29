@@ -1,19 +1,20 @@
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
 
 // My custom modules
-import placesModule from './places'; // Module
-import { PlacesState } from './places/state'; // Module state interface
+import placesModule from './places' // Module
+import { PlacesState } from './places/state' // Module state interface
 
+import mapModule from './map' // Module
+import { MapState } from './map/state' // Module state interface
 
 export interface StateInterface {
-    // Define your own store structure, using submodules if needed
-    // example: ExampleStateInterface;
-    // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-    places: PlacesState;
+    places: PlacesState
+    map: MapState
 }
 
 export default createStore<StateInterface>({
     modules: {
-        places: placesModule
-    }
+        places: placesModule,
+        map: mapModule,
+    },
 })

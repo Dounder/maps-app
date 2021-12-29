@@ -1,11 +1,12 @@
 import { defineComponent, ref, onMounted, watch } from 'vue'
-import { usePlacesStore } from '@/composables'
 import Mapboxgl from 'mapbox-gl'
+import { usePlacesStore, useMapStore } from '@/composables'
 
 export default defineComponent({
     setup() {
         const mapElement = ref<HTMLDivElement>()
         const { userLocation, isUserLocationReady } = usePlacesStore()
+        const { setMap } = useMapStore()
 
         const initMap = async () => {
             if (!mapElement.value) throw new Error('Map element is not defined.')
@@ -26,7 +27,9 @@ export default defineComponent({
                 <p>Actualmente en Guate</p>
             `)
 
-            const miLocationMarker = new Mapboxgl.Marker().setLngLat(userLocation.value).addTo(map).setPopup(miLocationPopup)
+            /*const miLocationMarker =*/ new Mapboxgl.Marker().setLngLat(userLocation.value).addTo(map).setPopup(miLocationPopup)
+
+            setMap(map)
         }
 
         onMounted(() => {
@@ -35,7 +38,7 @@ export default defineComponent({
             console.log('User location is not ready yet.')
         })
 
-        watch(isUserLocationReady, (newVal) => {
+        watch(isUserLocationReady, () => {
             if (isUserLocationReady.value) initMap()
         })
 
